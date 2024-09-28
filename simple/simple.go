@@ -2,15 +2,17 @@ package simple
 
 import (
 	"bs/config"
+	"github.com/janearc/sux/backend"
 	"github.com/janearc/sux/sux"
 	"github.com/sirupsen/logrus"
 	"path/filepath"
 )
 
 type SimpleService struct {
-	log       *logrus.Logger
-	transport *sux.Sux
-	cf        *config.Config
+	log     *logrus.Logger
+	state   *sux.Sux
+	backend *backend.Transport
+	cf      *config.Config
 }
 
 func NewSimpleService(root string) *SimpleService {
@@ -47,16 +49,32 @@ func NewSimpleService(root string) *SimpleService {
 	if state == nil {
 		logrus.Fatal("Failed to instantiate Sux object")
 	} else {
-		logrus.Infof("SUX init successful")
+		svc.log.Infof("SUX init successful")
 	}
 
-	svc.transport = state
+	svc.state = state
+
+	// stand up backend
+	b := backend.NewOpenAITransport(svc.state.GetConfig())
+
+	if b == nil {
+		svc.log.Fatal("Failed to instantiate backend object")
+	} else {
+		svc.log.Infof("Backend init successful")
+	}
 
 	svc.log.Infof("Simple Becky Service instantiated")
 	return svc
 }
 
 func (s *SimpleService) Chat(query string) string {
-	s.log.Infof("Query: [%s]", query)
-	return "return"
+	s.log.Infof("Sending query to backend: [%s]", query)
+	rsp, err := s.backend.OpenAIRequest(query)
+	if err != nil {
+		s.log.WithError(err).Fatalf("Backend seems to have tipped over: %v", err)
+		return ""
+	} else {
+		s.log.Infof("Backend response: [%s]", rsp)
+		return rsp
+	}
 }

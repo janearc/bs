@@ -1,7 +1,7 @@
 .ONESHELL:
 
 PACKAGE_DIRS=$(shell go list ./... | grep -v /vendor/)
-ECR_URI=`yq '.aws.ecr_uri' < config/secrets.yml`
+ECR_URI="620055013658.dkr.ecr.us-west-2.amazonaws.com"
 
 tidy:
 	@go mod tidy
@@ -23,16 +23,16 @@ rmsecrets:
 	echo > etc/sux/secrets.yml
 
 dockerauth:
-	aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 620055013658.dkr.ecr.us-west-2.amazonaws.com
+	aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $(ECR_URI)
 
 docker:
-	docker buildx build --no-cache --tag ${ECR_URI}:latest --platform linux/amd64 --push .
+	docker buildx build --no-cache --tag $(ECR_URI):latest --platform linux/amd64 --push .
 
 kubelogs:
 	kubectl logs `kubectl get pods | grep Running | grep -i becky | cut -d ' ' -f 1`
 
 bounce:
-	kubectl rollout restart deployment atc-deployment
+	kubectl rollout restart deployment archeavy-becky
 
 version:
 	@echo "Updating version data"

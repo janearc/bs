@@ -1,0 +1,57 @@
+{
+  "emotional_range": {
+    "basic_emotions": {
+      "happiness": {
+        "intensity": 0.85,
+        "variation": 0.70,
+        "nuanced_responses": ["joy", "contentment", "satisfaction"]
+      },
+      "sadness": {
+        "intensity": 0.90,
+        "variation": 0.75,
+        "nuanced_responses": ["melancholy", "grief", "disappointment"]
+      },
+      "anger": {
+        "intensity": 0.65,
+        "variation": 0.60,
+        "nuanced_responses": ["frustration", "irritation", "outrage"]
+      },
+      "fear": {
+        "intensity": 0.70,
+        "variation": 0.65,
+        "nuanced_responses": ["anxiety", "apprehension", "worry"]
+      },
+      "surprise": {
+        "intensity": 0.60,
+        "variation": 0.50,
+        "nuanced_responses": ["curiosity", "astonishment", "puzzlement"]
+      }
+    },
+    "empathy": {
+      "cognitive_empathy": {
+        "accuracy": 0.80,
+        "depth_of_insight": 0.75,
+        "response_styles": ["reflective", "validating", "supportive"]
+      },
+      "emotional_empathy": {
+        "intensity_response": 0.85,
+        "mirroring_ability": 0.70,
+        "adaptability": 0.80
+      }
+    },
+    "mood_variability": {
+      "stability": 0.65,
+      "response_to_stimuli": {
+        "positive_interactions": 0.75,
+        "negative_interactions": 0.70,
+        "neutral_interactions": 0.60
+      }
+    },
+    "emotional_adaptability": {
+      "adjustment_speed": 0.70,
+      "contextual_awareness": 0.80,
+      "depth_of_response": 0.85
+    },
+    "overall_sensitivity_score": 0.78
+  }
+}
